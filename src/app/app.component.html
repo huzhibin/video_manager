@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row clearfix">
+    <div class="col-md-12 column">
+      <div class="page-header">
+        <h1>
+					  视频管理
+            <button type="button" class="btn btn-default active btn-info btn-upload" href="#modal-video"
+            data-toggle="modal" (click)="return;">上传视频</button>
+				  </h1>
+      </div>
+
+      <blockquote id="tag" class="pull-right">
+      </blockquote>
+
+      <table class="table" id="videoTable">
+        <thead>
+          <tr>
+            <th>标题</th>
+            <th>缩略图</th>
+            <th>描述</th>
+            <th>创建时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of videoList">
+            <td>
+              {{item.title}}
+            </td>
+            <td>
+              <a href="{{item.videoAddress}}" target="blank"><img alt="error" src="{{item.videoImageAddress}}" class="img-thumbnail" /></a>
+            </td>
+            <td>
+              {{item.detail}}
+            </td>
+            <td>
+              {{item.createTime}}
+            </td>
+            <td>
+              <button type="button" class="btn btn-default active btn-warning" href="#modal-video">编辑</button>
+
+              <button type="button" class="btn btn-default active btn-danger">删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <pagination [totalPage]="totalPage" [pageNumber]="pageNumber" (updatePageNumber)="updatePageNumber($event)"></pagination>
+      <!-- <video-modal [video]="selectVideo"></video-modal> -->
+
+    </div>
+  </div>
+</div>
