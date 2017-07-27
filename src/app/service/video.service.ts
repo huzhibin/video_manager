@@ -1,43 +1,88 @@
 import { Injectable }    from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
+import { HttpRequest } from '@angular/common/http';
+
 import 'rxjs/add/operator/toPromise';
+
 import { Video } from '../model/Video';
+import { ResData } from '../model/resData';
 
 @Injectable()
 export class VideoService {
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new Headers({ 'Content-Type': 'application/json' });
 
-  private videoUrl = 'api/heroes';  // URL to web api
+  private host = 'http://192.168.1.26:8080';
+  private path = 'manage/video';
   constructor(private http: Http) { }
 
-  getVideoList(params): Promise<Object> {
-    return this.http.post('http://192.168.1.26:8080/manage/video/getVideoList.do', JSON.stringify(params))
-               .toPromise()
-               .then(response => response.json() as data)
-               .catch(this.handleError);
+  getVideoList(params: Object): Promise<Object> {
+    return this.http.post(`${this.host}/${this.path}/getVideoList.do`, JSON.stringify(params))
+      .toPromise()
+      .then(response => response.json() as ResData)
+      .catch(this.handleError);
   }
-  // update(hero: Hero): Promise<Hero> {
-  //   const url = `${this.videoUrl}/${hero.id}`;
+
+  getAllTpye(): Promise<Object> {
+    return this.http.get(`${this.host}/${this.path}/getAllTpye.do`)
+      .toPromise()
+      .then((response: any) => response.json() as ResData)
+      .catch(this.handleError);
+  }
+
+  updateVideo(formData: any): Promise<any> {
+    return this.http
+      .post(`${this.host}/${this.path}/updateVideo.do`,
+        formData,
+        new RequestOptions({ headers: new Headers() }))
+      .toPromise()
+      .then((response: any) => response.json() as ResData)
+      .catch(this.handleError);
+  }
+
+  uploadVideoRecord(formData: any): Promise<any> {
+    return this.http
+      .post(`${this.host}/${this.path}/uploadVideoRecord.do`,
+      formData,
+      new RequestOptions({ headers: new Headers() }))
+      .toPromise()
+      .then((response: any) => response.json() as ResData)
+      .catch(this.handleError);
+  }
+  //上传文件进度监测
+  // uploadVideoProgress(formData: any): Promise<any> {
+  //   console.log(new RequestOptions());
   //   return this.http
-  //     .put(url, JSON.stringify(hero), {headers: this.headers})
-  //     .toPromise()
-  //     .then(() => hero)
+  //     .post(new HttpRequest(
+  //       'POST',
+  //       URL,
+  //       body,
+  //       {
+  //         reportProgress: true
+  //       })
+  //     )
+  //     .subscribe(event => {
+  //       if (event.type === HttpEventType.DownloadProgress) {
+  //
+  //       }
+  //
+  //       if (event.type === HttpEventType.UploadProgress) {
+  //
+  //       }
+  //
+  //       if (event.type === HttpEventType.Response) {
+  //         console.log(event.body);
+  //       }
+  //     })
   //     .catch(this.handleError);
   // }
-  // create(name: string): Promise<Hero> {
-  //   return this.http
-  //     .post(this.videoUrl, JSON.stringify({name: name}), {headers: this.headers})
-  //     .toPromise()
-  //     .then(res => res.json().data as Hero)
-  //     .catch(this.handleError);
-  // }
-  // delete(id: number): Promise<void> {
-  //   const url = `${this.videoUrl}/${id}`;
-  //   return this.http.delete(url, {headers: this.headers})
-  //     .toPromise()
-  //     .then(() => null)
-  //     .catch(this.handleError);
-  // }
+
+  deleteVideo(params: any): Promise<any> {
+    return this.http
+      .get(`${this.host}/${this.path}/deleteVideo.do?id=${params.id}`)
+      .toPromise()
+      .then((response: any) => response.json() as ResData)
+      .catch(this.handleError);
+  }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

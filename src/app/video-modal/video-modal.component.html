@@ -1,51 +1,48 @@
-<div class="modal fade in" id="modal-video" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:block;">
-  <div class="modal-dialog">
+<div class="modal fade in" [class.video-container]="true" (click)="close.emit()" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" (click)="$event.stopPropagation()">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <button type="button" (click)="close.emit()" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h4 class="modal-title">
-            {{modalTitle}}
+            {{ type == "upload"?"视频上传": (type=="edit"?"视频编辑":"")}}
           </h4>
       </div>
       <div class="modal-body">
-        {{ str }}
         <form #videoForm="ngForm" class="form-horizontal" role="form">
           <div class="form-group">
-            <label for="" class="col-sm-2 control-label">标题 <span class="text-danger">*</span></label>
-
+            <label for="" class="col-sm-2 control-label">标题</label>
             <div class="col-sm-10">
-              <input [(ngModel)]="video.title" name="title" type="text" placeholder="title" class="form-control" maxlength="50" required #title="ngModel" />
-              <div [hidden]="title.valid || title.pristine" class="alert alert-danger">请输入标题</div>
+              <input [(ngModel)]="video.title" name="title" type="text" placeholder="title" class="form-control" maxlength="50" required/>
+              <!-- <div [hidden]="video.title.valid || video.title.pristine" class="alert alert-danger">请输入标题</div> -->
             </div>
 
           </div>
           <div class="form-group">
-            <label for="" class="col-sm-2 control-label">描述 <span class="text-danger">*</span></label>
+            <label for="" class="col-sm-2 control-label">描述</label>
 
             <div class="col-sm-10">
               <textarea [(ngModel)]="video.detail" name="detail" rows="4" class="form-control" maxlength="500" required></textarea>
             </div>
           </div>
           <div class="form-group">
-            <label for="" class="col-sm-2 control-label">类型 <span class="text-danger">*</span></label>
+            <label for="" class="col-sm-2 control-label">类型</label>
 
             <div class="col-sm-10">
-              <input [(ngModel)]="video.typeid" name="type" type="text" class="form-control" maxlength="20" required/>
+              <input [(ngModel)]="video.typeid" name="typeid" type="text" class="form-control" maxlength="20" required/>
             </div>
           </div>
           <div class="form-group">
-            <label for="" class="col-sm-2 control-label">选择视频 <span class="text-danger">*</span></label>
+            <label for="" class="col-sm-2 control-label">选择视频</label>
 
             <div class="col-sm-10">
-              <input [(ngModel)]="video.upload_file" name="upload_file" type="file" value="" />
+              <input (change)="fileChange($event)" name="upload_file" type="file" required/>
             </div>
           </div>
         </form>
-
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="submit" class="btn btn-primary" [disabled]="!videoForm.form.valid" (click)="videoForm.reset()">保存</button>
+        <button type="button" (click)="close.emit()" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!videoForm.form.valid" (click)="submit()">保存</button>
       </div>
     </div>
 

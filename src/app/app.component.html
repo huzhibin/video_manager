@@ -5,25 +5,26 @@
         <h1>
 					  视频管理
             <button type="button" class="btn btn-default active btn-info btn-upload" href="#modal-video"
-            data-toggle="modal" (click)="return;">上传视频</button>
+            data-toggle="modal" (click)="showVideoModal('upload')">上传视频</button>
 				  </h1>
       </div>
 
-      <blockquote id="tag" class="pull-right">
+      <blockquote class="pull-right">
+        <span *ngFor="let tag of tags;" [class.label-success]="true" class="label label-default tag">{{ tag.name }}</span>
       </blockquote>
 
-      <table class="table" id="videoTable">
+      <table class="table table-hover" id="videoTable">
         <thead>
           <tr>
             <th>标题</th>
             <th>缩略图</th>
             <th>描述</th>
-            <th>创建时间</th>
+            <th (click)="reverseList()">创建时间</th>
             <th>操作</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of videoList">
+          <tr *ngFor="let item of videoList; let odd=odd" [ngClass]="{info:odd}">
             <td>
               {{item.title}}
             </td>
@@ -34,20 +35,20 @@
               {{item.detail}}
             </td>
             <td>
-              {{item.createTime}}
+              {{item.createTime | date:'y/M/d HH:mm:ss'}}
             </td>
             <td>
-              <button type="button" class="btn btn-default active btn-warning" href="#modal-video">编辑</button>
-
-              <button type="button" class="btn btn-default active btn-danger">删除</button>
+              <button type="button" (click)="showVideoModal('edit',item)" class="btn btn-default active btn-warning" href="#modal-video">编辑</button>
+              <button type="button" (click)="deleteVideo(item)" class="btn btn-default active btn-danger">删除</button>
             </td>
           </tr>
         </tbody>
       </table>
 
       <pagination [totalPage]="totalPage" [pageNumber]="pageNumber" (updatePageNumber)="updatePageNumber($event)"></pagination>
-      <!-- <video-modal [video]="selectVideo"></video-modal> -->
+      <video-modal [video]="selectVideo" [type]="videoModalType" [class.fade]="isVideoModalFade" (close)="hideVideoModal()" (save)="saveVideoModal($event)"></video-modal>
 
+      <!-- <ngbd-modal-basic></ngbd-modal-basic> -->
     </div>
   </div>
 </div>

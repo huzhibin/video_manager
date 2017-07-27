@@ -9,7 +9,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   @Input() totalPage: number;
   @Input() pageNumber: number;
   @Output() updatePageNumber: EventEmitter<number> = new EventEmitter<number>();
-  pages: Array;
+  pages: Array<number>;
 
   constructor() {
   };
@@ -25,8 +25,8 @@ export class PaginationComponent implements OnInit, OnChanges {
     }
   }
 
-  selectPage(pageNumber) {
-    if(this.pageNumber != pageNumber){
+  selectPage(pageNumber: number) {
+    if (this.pageNumber != pageNumber) {
       this.pageNumber = pageNumber;
       this.updatePageNumber.emit(pageNumber);
     }

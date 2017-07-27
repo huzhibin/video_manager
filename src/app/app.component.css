@@ -41,3 +41,12 @@ table tr>td img {
 .btn-upload {
   float: right;
 }
+
+span.tag {
+  cursor: pointer;
+  margin: 4px;
+}
+
+video-modal.fade {
+  display: none;
+}

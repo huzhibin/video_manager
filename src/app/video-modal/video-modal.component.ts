@@ -1,10 +1,8 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
-
-import { Video } from '../model/video';
 
 @Component({
   selector: 'video-modal',
@@ -12,23 +10,23 @@ import { Video } from '../model/video';
   styleUrls: ['./video-modal.component.css']
 })
 export class VideoModalComponent implements OnInit {
-  @Input() video: Video;
-  get str() { return JSON.stringify(this.video) };
-  constructor(
-    // private heroService: HeroService,
-    // private route: ActivatedRoute,
-    // private location: Location
-  ) { }
+  // @Input() open: boolean;
+  @Input() type: string;
+  @Input() video: any;
+  @Output() close: EventEmitter<any> = new EventEmitter<any>();
+  @Output() save: EventEmitter<any> = new EventEmitter<any>();
+
+  constructor() { }
+
 
   ngOnInit(): void {
-    // this.route.params
-    //   .switchMap((params: Params) => this.heroService.getHero(+params['id']))
-    //   .subscribe(hero => this.hero = hero);
   }
 
   submit(): void {
-    // this.heroService.update(this.hero)
-    //   .then(() => this.goBack());
+    this.save.emit({ video: this.video, type: this.type })
   }
 
+  fileChange(event: any) {
+    this.video.upload_file = event.target.files[0] || null;
+  }
 }

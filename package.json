@@ -24,7 +24,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@angular/common": "~4.0.0",
+    "@angular/animations": "^4.3.1",
+    "@angular/common": "^4.3.1",
     "@angular/compiler": "~4.0.0",
     "@angular/core": "~4.0.0",
     "@angular/forms": "~4.0.0",
@@ -32,6 +33,7 @@
     "@angular/platform-browser": "~4.0.0",
     "@angular/platform-browser-dynamic": "~4.0.0",
     "@angular/router": "~4.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.29",
     "angular-in-memory-web-api": "~0.3.0",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
